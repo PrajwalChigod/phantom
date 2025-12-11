@@ -1,0 +1,14 @@
+# Compiled colorscheme
+colors/phantom_compiled.vim
+colors/phantom_compiled.lua
+
+# Neovim
+.netrwhist
+
+# macOS
+.DS_Store
+
+# Editor
+*.swp
+*.swo
+*~
