@@ -162,11 +162,11 @@ local base = lush(function(injected_functions)
     sym("@variable")({ fg = p.fg_dim }),
 		sym("@variable.parameter")({ fg = p.fg }),
 		sym("@variable.member")({ fg = p.fg }),
-		sym("@variable.builtin")({ fg = p.marsala, gui = "bold" }),
+		sym("@variable.builtin")({ fg = p.marsala2, gui = "bold" }),
 
 		sym("@constant")({ fg = p.blue2, gui = "bold" }),
 		sym("@constant.macro")({ fg = p.blue2, gui = "bold" }),
-		sym("@constant.builtin")({ fg = p.marsala, gui = "bold" }),
+		sym("@constant.builtin")({ fg = p.blue2, gui = "bold" }),
 
 		sym("@module")({ fg = p.fg }),
 		sym("@label")({ fg = p.fg }),
@@ -187,7 +187,7 @@ local base = lush(function(injected_functions)
 		sym("@type")({ fg = p.marsala, gui = "bold" }),
 		sym("@type.definition")({ fg = p.marsala }),
 		sym("@constructor")({ fg = p.marsala, gui = "bold" }),
-		sym("@type.builtin")({ fg = p.blue2 }),
+		sym("@type.builtin")({ fg = p.orange2 }),
 
 		sym("@attribute")({ fg = p.fg }),
 		sym("@property")({ fg = p.blue }),
@@ -249,6 +249,45 @@ local base = lush(function(injected_functions)
 		sym("@tag")({ fg = p.blue }),
 		sym("@tag.attribute")({ fg = p.fg }),
 		sym("@tag.delimiter")({ fg = p.fg_dim }),
+
+		-- LSP SEMANTIC TOKENS
+
+		-- Types
+		sym("@lsp.type.class")({ fg = p.marsala, gui = "bold" }),
+		sym("@lsp.type.decorator")({ fg = p.blue2 }),
+		sym("@lsp.type.enum")({ fg = p.marsala, gui = "bold" }),
+		sym("@lsp.type.enumMember")({ fg = p.blue2, gui = "bold" }),
+		sym("@lsp.type.interface")({ fg = p.marsala, gui = "bold" }),
+		sym("@lsp.type.struct")({ fg = p.marsala, gui = "bold" }),
+		sym("@lsp.type.type")({ fg = p.marsala, gui = "bold" }),
+		sym("@lsp.type.typeParameter")({ fg = p.marsala2 }),
+
+		-- Functions and methods
+		sym("@lsp.type.function")({ fg = p.blue }),
+		sym("@lsp.type.method")({ fg = p.blue }),
+		sym("@lsp.type.macro")({ fg = p.blue2, gui = "bold" }),
+
+		-- Variables and parameters
+		sym("@lsp.type.variable")({ fg = p.fg_dim }),
+		sym("@lsp.type.parameter")({ fg = p.fg }),
+		sym("@lsp.type.property")({ fg = p.blue }),
+
+		-- Namespaces and modules
+		sym("@lsp.type.namespace")({ fg = p.fg }),
+
+		-- Keywords and operators
+		sym("@lsp.type.keyword")({ fg = p.fg_dim, gui = "bold" }),
+		sym("@lsp.type.operator")({ fg = p.fg_dim }),
+
+		-- Comments and documentation
+		sym("@lsp.type.comment")({ fg = p.fg_dark, gui = "italic" }),
+		sym("@lsp.type.string")({ fg = p.fg, gui = "italic" }),
+
+		-- Modifiers
+		sym("@lsp.mod.readonly")({ fg = p.blue2, gui = "bold" }),
+		sym("@lsp.mod.deprecated")({ fg = p.marsala2, gui = "strikethrough" }),
+		sym("@lsp.mod.static")({ fg = p.marsala2, gui = "bold" }),
+		sym("@lsp.mod.defaultLibrary")({ fg = p.orange2, gui = "bold" }),
 	}
 end)
 
