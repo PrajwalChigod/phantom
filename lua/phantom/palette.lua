@@ -18,14 +18,14 @@ M.fg_dim = hsl(0, 0, 50)
 M.fg_dark = hsl(0, 0, 35)
 
 -- Primary syntax colors
-M.blue = hsl(220, 30, 60)
+M.blue = hsl(220, 25, 55)
 M.blue2 = hsl(220, 20, 40)
 
-M.marsala = hsl(10, 40, 30)
+M.marsala = hsl(10, 40, 35)
 M.marsala2 = hsl(10, 35, 20)
 
-M.orange = hsl(40, 28, 52)
-M.orange2 = hsl(30, 35, 35)
+M.orange = hsl(40, 30, 50)
+M.orange2 = hsl(30, 40, 30)
 
 -- UI colors
 M.red = hsl(0, 38, 50)

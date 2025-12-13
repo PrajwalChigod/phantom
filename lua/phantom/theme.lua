@@ -162,7 +162,7 @@ local base = lush(function(injected_functions)
     sym("@variable")({ fg = p.fg_dim }),
 		sym("@variable.parameter")({ fg = p.fg }),
 		sym("@variable.member")({ fg = p.fg }),
-		sym("@variable.builtin")({ fg = p.marsala2, gui = "bold" }),
+		sym("@variable.builtin")({ fg = p.marsala2 }),
 
 		sym("@constant")({ fg = p.blue2, gui = "bold" }),
 		sym("@constant.macro")({ fg = p.blue2, gui = "bold" }),
@@ -184,9 +184,9 @@ local base = lush(function(injected_functions)
 		sym("@number")({ fg = p.orange }),
 		sym("@number.float")({ fg = p.orange }),
 
-		sym("@type")({ fg = p.marsala, gui = "bold" }),
+		sym("@type")({ fg = p.marsala }),
 		sym("@type.definition")({ fg = p.marsala }),
-		sym("@constructor")({ fg = p.marsala, gui = "bold" }),
+		sym("@constructor")({ fg = p.marsala }),
 		sym("@type.builtin")({ fg = p.blue2 }),
 
 		sym("@attribute")({ fg = p.orange }),
@@ -253,7 +253,7 @@ local base = lush(function(injected_functions)
 		-- LSP SEMANTIC TOKENS
 
 		-- Types
-		sym("@lsp.type.class")({ fg = p.orange2, gui = "bold" }),
+		sym("@lsp.type.class")({ fg = p.orange2 }),
 		sym("@lsp.type.decorator")({ fg = p.orange }),
 		sym("@lsp.type.enum")({ fg = p.marsala, gui = "bold" }),
 		sym("@lsp.type.enumMember")({ fg = p.blue2, gui = "bold" }),
@@ -293,7 +293,7 @@ local base = lush(function(injected_functions)
 
     -- Typed modifiers
     sym("@lsp.typemod.selfParameter")({ fg = p.marsala, gui = "italic" }),
-    sym("@lsp.typemod.class.declaration")({ fg = p.marsala, gui = "bold" }),
+    sym("@lsp.typemod.class.declaration")({ fg = p.marsala }),
     sym("@lsp.typemod.function.declaration")({ fg = p.blue }),
     sym("@lsp.typemod.method.declaration")({ fg = p.blue })
 	}
