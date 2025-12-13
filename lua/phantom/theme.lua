@@ -61,15 +61,15 @@ local base = lush(function(injected_functions)
 
 		-- SEARCH AND HIGHLIGHT
 
-		Search({ fg = p.black, bg = p.blue }),
-		IncSearch({ fg = p.black, bg = p.blue }),
-		CurSearch({ fg = p.black, bg = p.blue }),
+		Search({ fg = p.fg, bg = p.blue.darken(30) }),
+		IncSearch({ fg = p.fg, bg = p.blue.darken(30) }),
+		CurSearch({ fg = p.fg, bg = p.blue.darken(30) }),
 		Substitute({ fg = p.black, bg = p.red }),
 
 		-- MESSAGES
 
 		ErrorMsg({ fg = p.red }),
-		WarningMsg({ fg = p.red }),
+		WarningMsg({ fg = p.yellow }),
 		ModeMsg({ fg = p.fg_dim }),
 		MoreMsg({ fg = p.blue }),
 		Question({ fg = p.blue }),
@@ -105,16 +105,16 @@ local base = lush(function(injected_functions)
 		-- DIAGNOSTICS
 
 		DiagnosticError({ fg = p.red }),
-		DiagnosticWarn({ fg = p.red }),
+		DiagnosticWarn({ fg = p.yellow }),
 		DiagnosticInfo({ fg = p.blue }),
 		DiagnosticHint({ fg = p.green }),
 		DiagnosticOk({ fg = p.green }),
 		DiagnosticUnderlineError({ sp = p.red, gui = "undercurl" }),
-		DiagnosticUnderlineWarn({ sp = p.red, gui = "undercurl" }),
+		DiagnosticUnderlineWarn({ sp = p.yellow, gui = "undercurl" }),
 		DiagnosticUnderlineInfo({ sp = p.blue, gui = "undercurl" }),
 		DiagnosticUnderlineHint({ sp = p.green, gui = "undercurl" }),
 		DiagnosticVirtualTextError({ fg = p.red.darken(20) }),
-		DiagnosticVirtualTextWarn({ fg = p.red.darken(20) }),
+		DiagnosticVirtualTextWarn({ fg = p.yellow.darken(20) }),
 		DiagnosticVirtualTextInfo({ fg = p.blue.darken(20) }),
 		DiagnosticVirtualTextHint({ fg = p.green.darken(20) }),
 
@@ -222,7 +222,7 @@ local base = lush(function(injected_functions)
 		sym("@comment")({ fg = p.fg_dark, gui = "italic" }),
 		sym("@comment.documentation")({ fg = p.fg_dark, gui = "italic" }),
 		sym("@comment.error")({ fg = p.red }),
-		sym("@comment.warning")({ fg = p.red }),
+		sym("@comment.warning")({ fg = p.yellow }),
 		sym("@comment.todo")({ fg = p.orange, gui = "bold" }),
 		sym("@comment.note")({ fg = p.fg }),
 
