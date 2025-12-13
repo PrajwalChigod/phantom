@@ -30,8 +30,8 @@ local base = lush(function(injected_functions)
 		CursorLine({ bg = p.cursorline }),
 		CursorLineNr({ fg = p.fg, bg = p.cursorline }),
 		CursorColumn({ bg = p.cursorline }),
-		Visual({ bg = p.selection.lighten(8) }), -- subtle background highlight
-		VisualNOS({ bg = p.selection.lighten(8) }),
+		Visual({ bg = p.selection_light }), -- subtle background highlight
+		VisualNOS({ bg = p.selection_light }),
 
 		-- LINE NUMBERS AND COLUMNS
 
@@ -70,9 +70,9 @@ local base = lush(function(injected_functions)
 
 		-- SEARCH AND HIGHLIGHT
 
-		Search({ fg = p.fg, bg = p.blue.darken(30) }),
-		IncSearch({ fg = p.fg, bg = p.blue.darken(30) }),
-		CurSearch({ fg = p.fg, bg = p.blue.darken(30) }),
+		Search({ fg = p.fg, bg = p.blue_search }),
+		IncSearch({ fg = p.fg, bg = p.blue_search }),
+		CurSearch({ fg = p.fg, bg = p.blue_search }),
 		Substitute({ fg = p.black, bg = p.red }),
 
 		-- MESSAGES
@@ -99,10 +99,10 @@ local base = lush(function(injected_functions)
 
 		-- DIFF
 
-		DiffAdd({ bg = p.green.darken(60) }),
-		DiffChange({ bg = p.orange.darken(60) }),
-		DiffDelete({ bg = p.red.darken(60) }),
-		DiffText({ bg = p.orange.darken(40) }),
+		DiffAdd({ bg = p.green_diff }),
+		DiffChange({ bg = p.orange_diff }),
+		DiffDelete({ bg = p.red_diff }),
+		DiffText({ bg = p.orange_diff_text }),
 
 		-- SPELLING
 
@@ -122,15 +122,15 @@ local base = lush(function(injected_functions)
 		DiagnosticUnderlineWarn({ sp = p.yellow, gui = "undercurl" }),
 		DiagnosticUnderlineInfo({ sp = p.blue, gui = "undercurl" }),
 		DiagnosticUnderlineHint({ sp = p.green, gui = "undercurl" }),
-		DiagnosticVirtualTextError({ fg = p.red.darken(20) }),
-		DiagnosticVirtualTextWarn({ fg = p.yellow.darken(20) }),
-		DiagnosticVirtualTextInfo({ fg = p.blue.darken(20) }),
-		DiagnosticVirtualTextHint({ fg = p.green.darken(20) }),
+		DiagnosticVirtualTextError({ fg = p.red_diag }),
+		DiagnosticVirtualTextWarn({ fg = p.yellow_diag }),
+		DiagnosticVirtualTextInfo({ fg = p.blue_diag }),
+		DiagnosticVirtualTextHint({ fg = p.green_diag }),
 
 		-- SYNTAX HIGHLIGHTING
 
 		Comment({ fg = p.fg_dark, gui = "italic" }),
-		Constant({ fg = p.blue.lighten(10), gui = "bold" }),
+		Constant({ fg = p.blue_light, gui = "bold" }),
 		String({ fg = p.fg, gui = "italic" }),
 		Character({ fg = p.fg, gui = "italic" }),
 		Number({ fg = p.orange }),
@@ -148,7 +148,7 @@ local base = lush(function(injected_functions)
 		PreProc({ fg = p.fg_dim }),
 		Include({ fg = p.fg }),
 		Define({ fg = p.fg }),
-		Macro({ fg = p.blue.lighten(10), gui = "bold" }),
+		Macro({ fg = p.blue_light, gui = "bold" }),
 		PreCondit({ fg = p.fg }),
 		Type({ fg = p.marsala }),
 		StorageClass({ fg = p.fg }),
@@ -308,21 +308,61 @@ local base = lush(function(injected_functions)
 	}
 end)
 
--- Load and merge integrations
-local gitsigns = require("phantom.integrations.gitsigns")
-local toggleterm = require("phantom.integrations.toggleterm")
-local bufferline = require("phantom.integrations.bufferline")
-local lualine_highlights = require("phantom.integrations.lualine_highlights")
-local fzf_lua = require("phantom.integrations.fzf_lua")
+-- Build function for conditional integration loading
+local M = {}
 
--- Merge base theme with all integrations
-local theme = lush.merge({
-	base,
-	gitsigns,
-	toggleterm,
-	bufferline,
-	lualine_highlights,
-	fzf_lua,
+--- Build the theme with optional configuration
+--- @param config table|nil Configuration options for integrations
+--- @return table theme The complete theme with enabled integrations
+function M.build(config)
+	local integrations = {}
+
+	-- Default to loading all integrations if no config provided
+	if not config or not config.integrations then
+		config = {
+			integrations = {
+				bufferline = true,
+				gitsigns = true,
+				toggleterm = true,
+				fzf_lua = true,
+				lualine_highlights = true,
+			}
+		}
+	end
+
+	-- Conditionally load integrations based on config
+	table.insert(integrations, base)
+
+	if config.integrations.gitsigns then
+		table.insert(integrations, require("phantom.integrations.gitsigns"))
+	end
+
+	if config.integrations.toggleterm then
+		table.insert(integrations, require("phantom.integrations.toggleterm"))
+	end
+
+	if config.integrations.bufferline then
+		table.insert(integrations, require("phantom.integrations.bufferline"))
+	end
+
+	if config.integrations.lualine_highlights then
+		table.insert(integrations, require("phantom.integrations.lualine_highlights"))
+	end
+
+	if config.integrations.fzf_lua then
+		table.insert(integrations, require("phantom.integrations.fzf_lua"))
+	end
+
+	-- Merge base theme with enabled integrations
+	return lush.merge(integrations)
+end
+
+-- For backward compatibility, export a default theme with all integrations
+-- This allows existing code that does `require("phantom.theme")` to still work
+setmetatable(M, {
+	__call = function(_, ...)
+		return M.build(nil)
+	end
 })
 
-return theme
+return M

@@ -12,27 +12,7 @@
 
 local p = require("phantom.palette")
 
--- Convert palette HSL colors to hex for lualine
-local colors = {
-	-- Base
-	bg = p.black.hex,
-	bg_light = p.surface.hex,
-	bg_lighter = p.selection.hex,
-
-	-- Foreground
-	fg = p.fg.hex,
-	fg_dim = p.fg_dim.hex,
-	fg_dark = p.fg_dark.hex,
-
-	-- Primary colors
-	blue = p.blue.hex,
-	marsala = p.marsala.hex,
-
-	-- Diagnostics & Git
-	red = p.red.hex,
-	orange = p.orange.hex,
-	green = p.green.hex,
-}
+local colors = p.hex()
 
 local phantom = {
 	normal = {

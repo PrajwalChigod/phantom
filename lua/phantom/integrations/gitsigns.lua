@@ -12,9 +12,9 @@ local gitsigns = lush(function()
 		GitSignsAddNr({ fg = p.green }),
 		GitSignsChangeNr({ fg = p.orange }),
 		GitSignsDeleteNr({ fg = p.red }),
-		GitSignsAddLn({ bg = p.green.darken(70) }),
-		GitSignsChangeLn({ bg = p.orange.darken(70) }),
-		GitSignsDeleteLn({ bg = p.red.darken(70) }),
+		GitSignsAddLn({ bg = p.green_bg }),
+		GitSignsChangeLn({ bg = p.orange_bg }),
+		GitSignsDeleteLn({ bg = p.red_bg }),
 		GitSignsCurrentLineBlame({ fg = p.fg_dark, gui = "italic" }),
 	}
 end)
