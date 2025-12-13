@@ -46,6 +46,13 @@ local base = lush(function(injected_functions)
 
 		StatusLine({ fg = p.fg_dim, bg = p.surface }),
 		StatusLineNC({ fg = p.fg_dark, bg = p.surface }),
+		StatusLineTerm({ fg = p.fg_dim, bg = p.surface }),
+		StatusLineTermNC({ fg = p.fg_dark, bg = p.surface }),
+
+		-- WINBAR
+
+		WinBar({ fg = p.fg, bg = p.black }),
+		WinBarNC({ fg = p.fg_dark, bg = p.black }),
 
 		-- TAB LINE
 
@@ -58,6 +65,8 @@ local base = lush(function(injected_functions)
 		PmenuSel({ fg = p.fg, bg = p.selection }),
 		PmenuSbar({ bg = p.selection }),
 		PmenuThumb({ bg = p.fg_dark }),
+		PmenuMatch({ fg = p.blue, bg = p.surface }),
+		PmenuMatchSel({ fg = p.blue, bg = p.selection }),
 
 		-- SEARCH AND HIGHLIGHT
 
