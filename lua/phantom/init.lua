@@ -21,8 +21,6 @@ local default_config = {
 	},
 	-- Cache compiled theme for faster subsequent loads
 	cache = true,
-	-- Lazy load colorscheme (requires manual setup via autocmd)
-	lazy = false,
 }
 
 -- Store merged config
@@ -47,23 +45,22 @@ function M.setup(opts)
 
 	-- Clear existing highlights
 	vim.cmd("highlight clear")
+	if vim.fn.exists("syntax_on") == 1 then
+		vim.cmd("syntax reset")
+	end
 
 	-- Check cache first if enabled
-	if M.config.cache and vim.g.phantom_cached_theme then
-		-- Use cached theme
-		local lush = require("lush")
-		lush(vim.g.phantom_cached_theme)
+	if M.config.cache and vim.g.phantom_theme_loaded then
+		-- Theme already loaded in this session, skip reload
 		return
 	end
 
-	-- Load and apply the Lush theme
-	local lush = require("lush")
-	local theme = require("phantom.theme").build(M.config)
-	lush(theme)
+	-- Load theme using native Neovim API (no Lush dependency!)
+	require("phantom.theme").load(M.config)
 
-	-- Cache theme if enabled
+	-- Mark theme as loaded if caching is enabled
 	if M.config.cache then
-		vim.g.phantom_cached_theme = theme
+		vim.g.phantom_theme_loaded = true
 	end
 end
 

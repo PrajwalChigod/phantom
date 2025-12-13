@@ -12,7 +12,27 @@
 
 local p = require("phantom.palette")
 
-local colors = p.hex()
+-- Colors are already in hex format
+local colors = {
+	-- Base
+	bg = p.black,
+	bg_light = p.surface,
+	bg_lighter = p.selection,
+
+	-- Foreground
+	fg = p.fg,
+	fg_dim = p.fg_dim,
+	fg_dark = p.fg_dark,
+
+	-- Primary colors
+	blue = p.blue,
+	marsala = p.marsala,
+
+	-- Diagnostics & Git
+	red = p.red,
+	orange = p.orange,
+	green = p.green,
+}
 
 local phantom = {
 	normal = {

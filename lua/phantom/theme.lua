@@ -1,321 +1,294 @@
 -- theme.lua - Highlight group definitions for Phantom colorscheme
--- Built with Lush (https://github.com/rktjmp/lush.nvim)
---
 
-local lush = require("lush")
-local hsl = lush.hsl
+local M = {}
 local p = require("phantom.palette")
 
----@diagnostic disable: undefined-global
-local base = lush(function(injected_functions)
-	local sym = injected_functions.sym
-
-	return {
+--- Apply base theme highlight groups
+local function apply_base_highlights()
+	local highlights = {
 
 		-- BASE HIGHLIGHTS
-
-		Normal({ fg = p.fg, bg = p.black }),
-		NormalFloat({ fg = p.fg, bg = p.surface }),
-		NormalNC({ fg = p.fg_dim, bg = p.black }),
-		FloatBorder({ fg = p.fg_dark, bg = p.surface }),
-		FloatTitle({ fg = p.fg, bg = p.surface, gui = "bold" }),
+		Normal = { fg = p.fg, bg = p.black },
+		NormalFloat = { fg = p.fg, bg = p.surface },
+		NormalNC = { fg = p.fg_dim, bg = p.black },
+		FloatBorder = { fg = p.fg_dark, bg = p.surface },
+		FloatTitle = { fg = p.fg, bg = p.surface, bold = true },
 
 		-- CURSOR AND SELECTION
-
-		Cursor({ gui = "reverse" }), -- reverse fg/bg colors at cursor
-		lCursor({ gui = "reverse" }), -- language-mapping cursor
-		CursorIM({ gui = "reverse" }), -- IME cursor
-		TermCursor({ gui = "reverse" }), -- terminal cursor
-		TermCursorNC({ gui = "reverse" }), -- unfocused terminal cursor
-		CursorLine({ bg = p.cursorline }),
-		CursorLineNr({ fg = p.fg, bg = p.cursorline }),
-		CursorColumn({ bg = p.cursorline }),
-		Visual({ bg = p.selection_light }), -- subtle background highlight
-		VisualNOS({ bg = p.selection_light }),
+		Cursor = { reverse = true },
+		lCursor = { reverse = true },
+		CursorIM = { reverse = true },
+		TermCursor = { reverse = true },
+		TermCursorNC = { reverse = true },
+		CursorLine = { bg = p.cursorline },
+		CursorLineNr = { fg = p.fg, bg = p.cursorline },
+		CursorColumn = { bg = p.cursorline },
+		Visual = { bg = p.selection_light },
+		VisualNOS = { bg = p.selection_light },
 
 		-- LINE NUMBERS AND COLUMNS
-
-		LineNr({ fg = p.fg_dark }),
-		SignColumn({ bg = p.black }),
-		FoldColumn({ fg = p.fg_dark, bg = p.black }),
-		ColorColumn({ bg = p.surface }),
-		VertSplit({ fg = p.selection }),
-		WinSeparator({ fg = p.selection }),
+		LineNr = { fg = p.fg_dark },
+		SignColumn = { bg = p.black },
+		FoldColumn = { fg = p.fg_dark, bg = p.black },
+		ColorColumn = { bg = p.surface },
+		VertSplit = { fg = p.selection },
+		WinSeparator = { fg = p.selection },
 
 		-- STATUS LINE
-
-		StatusLine({ fg = p.fg_dim, bg = p.surface }),
-		StatusLineNC({ fg = p.fg_dark, bg = p.surface }),
-		StatusLineTerm({ fg = p.fg_dim, bg = p.surface }),
-		StatusLineTermNC({ fg = p.fg_dark, bg = p.surface }),
+		StatusLine = { fg = p.fg_dim, bg = p.surface },
+		StatusLineNC = { fg = p.fg_dark, bg = p.surface },
+		StatusLineTerm = { fg = p.fg_dim, bg = p.surface },
+		StatusLineTermNC = { fg = p.fg_dark, bg = p.surface },
 
 		-- WINBAR
-
-		WinBar({ fg = p.fg, bg = p.black }),
-		WinBarNC({ fg = p.fg_dark, bg = p.black }),
+		WinBar = { fg = p.fg, bg = p.black },
+		WinBarNC = { fg = p.fg_dark, bg = p.black },
 
 		-- TAB LINE
-
-		TabLine({ fg = p.fg_dark, bg = p.surface }),
-		TabLineFill({ bg = p.surface }),
-		TabLineSel({ fg = p.fg, bg = p.black }),
+		TabLine = { fg = p.fg_dark, bg = p.surface },
+		TabLineFill = { bg = p.surface },
+		TabLineSel = { fg = p.fg, bg = p.black },
 
 		-- POPUP MENU
-		Pmenu({ fg = p.fg, bg = p.surface }),
-		PmenuSel({ fg = p.fg, bg = p.selection }),
-		PmenuSbar({ bg = p.selection }),
-		PmenuThumb({ bg = p.fg_dark }),
-		PmenuMatch({ fg = p.blue, bg = p.surface }),
-		PmenuMatchSel({ fg = p.blue, bg = p.selection }),
+		Pmenu = { fg = p.fg, bg = p.surface },
+		PmenuSel = { fg = p.fg, bg = p.selection },
+		PmenuSbar = { bg = p.selection },
+		PmenuThumb = { bg = p.fg_dark },
+		PmenuMatch = { fg = p.blue, bg = p.surface },
+		PmenuMatchSel = { fg = p.blue, bg = p.selection },
 
 		-- SEARCH AND HIGHLIGHT
-
-		Search({ fg = p.fg, bg = p.blue_search }),
-		IncSearch({ fg = p.fg, bg = p.blue_search }),
-		CurSearch({ fg = p.fg, bg = p.blue_search }),
-		Substitute({ fg = p.black, bg = p.red }),
+		Search = { fg = p.fg, bg = p.blue_search },
+		IncSearch = { fg = p.fg, bg = p.blue_search },
+		CurSearch = { fg = p.fg, bg = p.blue_search },
+		Substitute = { fg = p.black, bg = p.red },
 
 		-- MESSAGES
-
-		ErrorMsg({ fg = p.red }),
-		WarningMsg({ fg = p.yellow }),
-		ModeMsg({ fg = p.fg_dim }),
-		MoreMsg({ fg = p.blue }),
-		Question({ fg = p.blue }),
+		ErrorMsg = { fg = p.red },
+		WarningMsg = { fg = p.yellow },
+		ModeMsg = { fg = p.fg_dim },
+		MoreMsg = { fg = p.blue },
+		Question = { fg = p.blue },
 
 		-- MISC UI
-
-		MatchParen({ fg = p.fg, bg = p.selection, gui = "bold" }),
-		NonText({ fg = p.fg_dark }),
-		SpecialKey({ fg = p.fg_dark }),
-		Whitespace({ fg = p.selection }),
-		EndOfBuffer({ fg = p.black }),
-		Directory({ fg = p.blue }),
-		Title({ fg = p.fg, gui = "bold" }),
-		Conceal({ fg = p.fg_dark }),
-		Folded({ fg = p.fg_dark, bg = p.surface }),
-		WildMenu({ fg = p.black, bg = p.blue }),
-		QuickFixLine({ bg = p.selection }),
+		MatchParen = { fg = p.fg, bg = p.selection, bold = true },
+		NonText = { fg = p.fg_dark },
+		SpecialKey = { fg = p.fg_dark },
+		Whitespace = { fg = p.selection },
+		EndOfBuffer = { fg = p.black },
+		Directory = { fg = p.blue },
+		Title = { fg = p.fg, bold = true },
+		Conceal = { fg = p.fg_dark },
+		Folded = { fg = p.fg_dark, bg = p.surface },
+		WildMenu = { fg = p.black, bg = p.blue },
+		QuickFixLine = { bg = p.selection },
 
 		-- DIFF
-
-		DiffAdd({ bg = p.green_diff }),
-		DiffChange({ bg = p.orange_diff }),
-		DiffDelete({ bg = p.red_diff }),
-		DiffText({ bg = p.orange_diff_text }),
+		DiffAdd = { bg = p.green_diff },
+		DiffChange = { bg = p.orange_diff },
+		DiffDelete = { bg = p.red_diff },
+		DiffText = { bg = p.orange_diff_text },
 
 		-- SPELLING
-
-		SpellBad({ sp = p.red, gui = "undercurl" }),
-		SpellCap({ sp = p.orange, gui = "undercurl" }),
-		SpellLocal({ sp = p.blue, gui = "undercurl" }),
-		SpellRare({ sp = p.green, gui = "undercurl" }),
+		SpellBad = { sp = p.red, undercurl = true },
+		SpellCap = { sp = p.orange, undercurl = true },
+		SpellLocal = { sp = p.blue, undercurl = true },
+		SpellRare = { sp = p.green, undercurl = true },
 
 		-- DIAGNOSTICS
-
-		DiagnosticError({ fg = p.red }),
-		DiagnosticWarn({ fg = p.yellow }),
-		DiagnosticInfo({ fg = p.blue }),
-		DiagnosticHint({ fg = p.green }),
-		DiagnosticOk({ fg = p.green }),
-		DiagnosticUnderlineError({ sp = p.red, gui = "undercurl" }),
-		DiagnosticUnderlineWarn({ sp = p.yellow, gui = "undercurl" }),
-		DiagnosticUnderlineInfo({ sp = p.blue, gui = "undercurl" }),
-		DiagnosticUnderlineHint({ sp = p.green, gui = "undercurl" }),
-		DiagnosticVirtualTextError({ fg = p.red_diag }),
-		DiagnosticVirtualTextWarn({ fg = p.yellow_diag }),
-		DiagnosticVirtualTextInfo({ fg = p.blue_diag }),
-		DiagnosticVirtualTextHint({ fg = p.green_diag }),
+		DiagnosticError = { fg = p.red },
+		DiagnosticWarn = { fg = p.yellow },
+		DiagnosticInfo = { fg = p.blue },
+		DiagnosticHint = { fg = p.green },
+		DiagnosticOk = { fg = p.green },
+		DiagnosticUnderlineError = { sp = p.red, undercurl = true },
+		DiagnosticUnderlineWarn = { sp = p.yellow, undercurl = true },
+		DiagnosticUnderlineInfo = { sp = p.blue, undercurl = true },
+		DiagnosticUnderlineHint = { sp = p.green, undercurl = true },
+		DiagnosticVirtualTextError = { fg = p.red_diag },
+		DiagnosticVirtualTextWarn = { fg = p.yellow_diag },
+		DiagnosticVirtualTextInfo = { fg = p.blue_diag },
+		DiagnosticVirtualTextHint = { fg = p.green_diag },
 
 		-- SYNTAX HIGHLIGHTING
-
-		Comment({ fg = p.fg_dark, gui = "italic" }),
-		Constant({ fg = p.blue_light, gui = "bold" }),
-		String({ fg = p.fg, gui = "italic" }),
-		Character({ fg = p.fg, gui = "italic" }),
-		Number({ fg = p.orange }),
-		Boolean({ fg = p.orange }),
-		Float({ fg = p.orange }),
-		Identifier({ fg = p.fg }),
-		Function({ fg = p.blue }),
-		Statement({ fg = p.fg }),
-		Conditional({ fg = p.fg }),
-		Repeat({ fg = p.fg }),
-		Label({ fg = p.fg }),
-		Operator({ fg = p.fg_dim }),
-		Keyword({ fg = p.fg, gui = "bold" }),
-		Exception({ fg = p.fg, gui = "bold" }),
-		PreProc({ fg = p.fg_dim }),
-		Include({ fg = p.fg }),
-		Define({ fg = p.fg }),
-		Macro({ fg = p.blue_light, gui = "bold" }),
-		PreCondit({ fg = p.fg }),
-		Type({ fg = p.marsala }),
-		StorageClass({ fg = p.fg }),
-		Structure({ fg = p.blue }),
-		Typedef({ fg = p.marsala }),
-		Special({ fg = p.blue }),
-		SpecialChar({ fg = p.blue }),
-		Tag({ fg = p.blue }),
-		Delimiter({ fg = p.fg_dim }),
-		SpecialComment({ fg = p.fg_dark, gui = "italic" }),
-		Debug({ fg = p.fg }),
-		Underlined({ gui = "underline" }),
-		Ignore({ fg = p.fg_dark }),
-		Error({ fg = p.red }),
-		Todo({ fg = p.orange, gui = "bold" }),
+		Comment = { fg = p.fg_dark, italic = true },
+		Constant = { fg = p.blue_light, bold = true },
+		String = { fg = p.fg, italic = true },
+		Character = { fg = p.fg, italic = true },
+		Number = { fg = p.orange },
+		Boolean = { fg = p.orange },
+		Float = { fg = p.orange },
+		Identifier = { fg = p.fg },
+		Function = { fg = p.blue },
+		Statement = { fg = p.fg },
+		Conditional = { fg = p.fg },
+		Repeat = { fg = p.fg },
+		Label = { fg = p.fg },
+		Operator = { fg = p.fg_dim },
+		Keyword = { fg = p.fg, bold = true },
+		Exception = { fg = p.fg, bold = true },
+		PreProc = { fg = p.fg_dim },
+		Include = { fg = p.fg },
+		Define = { fg = p.fg },
+		Macro = { fg = p.blue_light, bold = true },
+		PreCondit = { fg = p.fg },
+		Type = { fg = p.marsala },
+		StorageClass = { fg = p.fg },
+		Structure = { fg = p.blue },
+		Typedef = { fg = p.marsala },
+		Special = { fg = p.blue },
+		SpecialChar = { fg = p.blue },
+		Tag = { fg = p.blue },
+		Delimiter = { fg = p.fg_dim },
+		SpecialComment = { fg = p.fg_dark, italic = true },
+		Debug = { fg = p.fg },
+		Underlined = { underline = true },
+		Ignore = { fg = p.fg_dark },
+		Error = { fg = p.red },
+		Todo = { fg = p.orange, bold = true },
 
 		-- TREESITTER HIGHLIGHTS
+		["@variable"] = { fg = p.fg_dim },
+		["@variable.parameter"] = { fg = p.fg },
+		["@variable.member"] = { fg = p.fg },
+		["@variable.builtin"] = { fg = p.marsala2 },
 
+		["@constant"] = { fg = p.blue2, bold = true },
+		["@constant.macro"] = { fg = p.blue2, bold = true },
+		["@constant.builtin"] = { fg = p.blue2, bold = true },
 
-    sym("@variable")({ fg = p.fg_dim }),
-		sym("@variable.parameter")({ fg = p.fg }),
-		sym("@variable.member")({ fg = p.fg }),
-		sym("@variable.builtin")({ fg = p.marsala2 }),
+		["@module"] = { fg = p.fg, italic = true },
+		["@label"] = { fg = p.fg },
 
-		sym("@constant")({ fg = p.blue2, gui = "bold" }),
-		sym("@constant.macro")({ fg = p.blue2, gui = "bold" }),
-		sym("@constant.builtin")({ fg = p.blue2, gui = "bold" }),
+		["@string"] = { fg = p.fg, italic = true },
+		["@string.documentation"] = { fg = p.fg_dark, italic = true },
+		["@string.regexp"] = { fg = p.fg },
+		["@string.escape"] = { fg = p.fg },
+		["@string.special"] = { fg = p.fg },
 
-		sym("@module")({ fg = p.fg, gui = "italic"}),
-		sym("@label")({ fg = p.fg }),
+		["@character"] = { fg = p.fg },
+		["@character.special"] = { fg = p.fg },
 
-		sym("@string")({ fg = p.fg, gui = "italic" }),
-		sym("@string.documentation")({ fg = p.fg_dark, gui = "italic"}),
-		sym("@string.regexp")({ fg = p.fg }),
-		sym("@string.escape")({ fg = p.fg }),
-		sym("@string.special")({ fg = p.fg }),
+		["@boolean"] = { fg = p.orange },
+		["@number"] = { fg = p.orange },
+		["@number.float"] = { fg = p.orange },
 
-		sym("@character")({ fg = p.fg }),
-		sym("@character.special")({ fg = p.fg }),
+		["@type"] = { fg = p.marsala },
+		["@type.definition"] = { fg = p.marsala },
+		["@constructor"] = { fg = p.marsala },
+		["@type.builtin"] = { fg = p.blue2 },
 
-		sym("@boolean")({ fg = p.orange }),
-		sym("@number")({ fg = p.orange }),
-		sym("@number.float")({ fg = p.orange }),
+		["@attribute"] = { fg = p.orange },
+		["@property"] = { fg = p.blue },
 
-		sym("@type")({ fg = p.marsala }),
-		sym("@type.definition")({ fg = p.marsala }),
-		sym("@constructor")({ fg = p.marsala }),
-		sym("@type.builtin")({ fg = p.blue2 }),
+		["@function"] = { fg = p.blue },
+		["@function.builtin"] = { fg = p.blue2 },
+		["@function.call"] = { fg = p.blue },
+		["@function.macro"] = { fg = p.blue },
+		["@function.method"] = { fg = p.blue },
+		["@function.method.call"] = { fg = p.blue },
 
-		sym("@attribute")({ fg = p.orange }),
-		sym("@property")({ fg = p.blue }),
+		["@operator"] = { fg = p.fg_dim },
 
-		sym("@function")({ fg = p.blue }),
-		sym("@function.builtin")({ fg = p.blue2 }),
-		sym("@function.call")({ fg = p.blue }),
-		sym("@function.macro")({ fg = p.blue }),
-		sym("@function.method")({ fg = p.blue }),
-		sym("@function.method.call")({ fg = p.blue }),
+		["@keyword"] = { fg = p.fg_dim },
+		["@keyword.function"] = { fg = p.fg_dim },
+		["@keyword.import"] = { fg = p.blue2, bold = true },
+		["@keyword.coroutine"] = { fg = p.fg_dim, bold = true },
+		["@keyword.operator"] = { fg = p.blue2 },
+		["@keyword.storage"] = { fg = p.blue2 },
+		["@keyword.repeat"] = { fg = p.blue2 },
+		["@keyword.return"] = { fg = p.blue2 },
+		["@keyword.debug"] = { fg = p.fg_dim, bold = true },
+		["@keyword.exception"] = { fg = p.fg_dim, bold = true },
+		["@keyword.conditional"] = { fg = p.blue2 },
+		["@keyword.conditional.ternary"] = { fg = p.blue2 },
+		["@keyword.directive"] = { fg = p.blue2 },
+		["@keyword.directive.define"] = { fg = p.blue2 },
 
-		sym("@operator")({ fg = p.fg_dim }),
+		["@punctuation.delimiter"] = { fg = p.fg_dim },
+		["@punctuation.bracket"] = { fg = p.fg_dim },
+		["@punctuation.special"] = { fg = p.blue },
+		["@comment"] = { fg = p.fg_dark, italic = true },
+		["@comment.documentation"] = { fg = p.fg_dark, italic = true },
+		["@comment.error"] = { fg = p.red },
+		["@comment.warning"] = { fg = p.yellow },
+		["@comment.todo"] = { fg = p.orange, bold = true },
+		["@comment.note"] = { fg = p.fg },
 
-		sym("@keyword")({ fg = p.fg_dim }),
-		sym("@keyword.function")({ fg = p.fg_dim }),
-		sym("@keyword.import")({ fg = p.blue2, gui = "bold" }),
-		sym("@keyword.coroutine")({ fg = p.fg_dim, gui = "bold" }),
-		sym("@keyword.operator")({ fg = p.blue2 }),
-		sym("@keyword.storage")({ fg = p.blue2 }),
-		sym("@keyword.repeat")({ fg = p.blue2 }),
-		sym("@keyword.return")({ fg = p.blue2 }),
-		sym("@keyword.debug")({ fg = p.fg_dim, gui = "bold" }),
-		sym("@keyword.exception")({ fg = p.fg_dim, gui = "bold" }),
-		sym("@keyword.conditional")({ fg = p.blue2 }),
-		sym("@keyword.conditional.ternary")({ fg = p.blue2}),
-		sym("@keyword.directive")({ fg = p.blue2 }),
-		sym("@keyword.directive.define")({ fg = p.blue2}),
+		["@markup.strong"] = { fg = p.blue, bold = true },
+		["@markup.italic"] = { italic = true },
+		["@markup.strikethrough"] = { strikethrough = true },
+		["@markup.underline"] = { underline = true },
+		["@markup.heading"] = { fg = p.marsala, bold = true },
+		["@markup.quote"] = { fg = p.blue, italic = true },
+		["@markup.math"] = { fg = p.blue },
+		["@markup.link"] = { fg = p.green },
+		["@markup.link.label"] = { fg = p.green },
+		["@markup.link.url"] = { fg = p.blue, underline = true },
+		["@markup.raw"] = { fg = p.fg },
+		["@markup.raw.block"] = { fg = p.fg },
+		["@markup.list"] = { fg = p.blue },
+		["@markup.list.checked"] = { fg = p.green },
+		["@markup.list.unchecked"] = { fg = p.fg_dim },
 
-		sym("@punctuation.delimiter")({ fg = p.fg_dim }),
-		sym("@punctuation.bracket")({ fg = p.fg_dim }),
-		sym("@punctuation.special")({ fg = p.blue }),
-		sym("@comment")({ fg = p.fg_dark, gui = "italic" }),
-		sym("@comment.documentation")({ fg = p.fg_dark, gui = "italic" }),
-		sym("@comment.error")({ fg = p.red }),
-		sym("@comment.warning")({ fg = p.yellow }),
-		sym("@comment.todo")({ fg = p.orange, gui = "bold" }),
-		sym("@comment.note")({ fg = p.fg }),
+		["@diff.plus"] = { fg = p.green },
+		["@diff.minus"] = { fg = p.red },
+		["@diff.delta"] = { fg = p.fg },
 
-		sym("@markup.strong")({ fg = p.blue, gui = "bold" }),
-		sym("@markup.italic")({ gui = "italic" }),
-		sym("@markup.strikethrough")({ gui = "strikethrough" }),
-		sym("@markup.underline")({ gui = "underline" }),
-		sym("@markup.heading")({ fg = p.marsala, gui = "bold" }),
-		sym("@markup.quote")({ fg = p.blue, gui = "italic" }),
-		sym("@markup.math")({ fg = p.blue }),
-		sym("@markup.link")({ fg = p.green }),
-		sym("@markup.link.label")({ fg = p.green }),
-		sym("@markup.link.url")({ fg = p.blue, gui = "underline" }),
-		sym("@markup.raw")({ fg = p.fg }),
-		sym("@markup.raw.block")({ fg = p.fg }),
-		sym("@markup.list")({ fg = p.blue }),
-		sym("@markup.list.checked")({ fg = p.green }),
-		sym("@markup.list.unchecked")({ fg = p.fg_dim }),
-
-		sym("@diff.plus")({ fg = p.green }),
-		sym("@diff.minus")({ fg = p.red }),
-		sym("@diff.delta")({ fg = p.fg }),
-
-		sym("@tag")({ fg = p.blue }),
-		sym("@tag.attribute")({ fg = p.fg }),
-		sym("@tag.delimiter")({ fg = p.fg_dim }),
+		["@tag"] = { fg = p.blue },
+		["@tag.attribute"] = { fg = p.fg },
+		["@tag.delimiter"] = { fg = p.fg_dim },
 
 		-- LSP SEMANTIC TOKENS
+		["@lsp.type.class"] = { fg = p.orange2 },
+		["@lsp.type.decorator"] = { fg = p.orange },
+		["@lsp.type.enum"] = { fg = p.marsala, bold = true },
+		["@lsp.type.enumMember"] = { fg = p.blue2, bold = true },
+		["@lsp.type.interface"] = { fg = p.marsala, bold = true },
+		["@lsp.type.struct"] = { fg = p.marsala, bold = true },
+		["@lsp.type.type"] = { fg = p.marsala, bold = true },
+		["@lsp.type.typeParameter"] = { fg = p.marsala2 },
 
-		-- Types
-		sym("@lsp.type.class")({ fg = p.orange2 }),
-		sym("@lsp.type.decorator")({ fg = p.orange }),
-		sym("@lsp.type.enum")({ fg = p.marsala, gui = "bold" }),
-		sym("@lsp.type.enumMember")({ fg = p.blue2, gui = "bold" }),
-		sym("@lsp.type.interface")({ fg = p.marsala, gui = "bold" }),
-		sym("@lsp.type.struct")({ fg = p.marsala, gui = "bold" }),
-		sym("@lsp.type.type")({ fg = p.marsala, gui = "bold" }),
-		sym("@lsp.type.typeParameter")({ fg = p.marsala2 }),
+		["@lsp.type.function"] = { fg = p.blue },
+		["@lsp.type.method"] = { fg = p.blue },
+		["@lsp.type.macro"] = { fg = p.blue2, bold = true },
 
-		-- Functions and methods
-		sym("@lsp.type.function")({ fg = p.blue }),
-		sym("@lsp.type.method")({ fg = p.blue }),
-		sym("@lsp.type.macro")({ fg = p.blue2, gui = "bold" }),
+		["@lsp.type.variable"] = { fg = p.fg_dim },
+		["@lsp.type.parameter"] = { fg = p.fg },
+		["@lsp.type.property"] = { fg = p.fg },
 
-		-- Variables and parameters
-		sym("@lsp.type.variable")({ fg = p.fg_dim }),
-		sym("@lsp.type.parameter")({ fg = p.fg }),
-		sym("@lsp.type.property")({ fg = p.fg }),
+		["@lsp.type.namespace"] = { fg = p.fg, italic = true },
 
-		-- Namespaces and modules
-		sym("@lsp.type.namespace")({ fg = p.fg , gui = "italic" }),
+		["@lsp.type.keyword"] = { fg = p.fg_dim, bold = true },
+		["@lsp.type.operator"] = { fg = p.fg_dim },
 
-		-- Keywords and operators
-		sym("@lsp.type.keyword")({ fg = p.fg_dim, gui = "bold" }),
-		sym("@lsp.type.operator")({ fg = p.fg_dim }),
+		["@lsp.type.comment"] = { fg = p.fg_dark, italic = true },
+		["@lsp.type.string"] = { fg = p.fg, italic = true },
 
-		-- Comments and documentation
-		sym("@lsp.type.comment")({ fg = p.fg_dark, gui = "italic" }),
-		sym("@lsp.type.string")({ fg = p.fg, gui = "italic" }),
+		["@lsp.mod.parameter"] = { fg = p.fg },
+		["@lsp.mod.declaration"] = { fg = p.fg_dim },
+		["@lsp.mod.deprecated"] = { fg = p.marsala2, strikethrough = true },
+		["@lsp.mod.static"] = { fg = p.marsala2, bold = true },
+		["@lsp.mod.defaultLibrary"] = { fg = p.blue2 },
+		["@lsp.mod.readonly"] = { fg = p.blue2, bold = true },
 
-		-- Modifiers
-    sym("@lsp.mod.parameter")({ fg = p.fg }),
-    sym("@lsp.mod.declaration")({ fg = p.fg_dim }),
-		sym("@lsp.mod.deprecated")({ fg = p.marsala2, gui = "strikethrough" }),
-		sym("@lsp.mod.static")({ fg = p.marsala2, gui = "bold" }),
-		sym("@lsp.mod.defaultLibrary")({ fg = p.blue2 }),
-		sym("@lsp.mod.readonly")({ fg = p.blue2, gui = "bold" }),
-
-    -- Typed modifiers
-    sym("@lsp.typemod.selfParameter")({ fg = p.marsala, gui = "italic" }),
-    sym("@lsp.typemod.class.declaration")({ fg = p.marsala }),
-    sym("@lsp.typemod.function.declaration")({ fg = p.blue }),
-    sym("@lsp.typemod.method.declaration")({ fg = p.blue })
+		["@lsp.typemod.selfParameter"] = { fg = p.marsala, italic = true },
+		["@lsp.typemod.class.declaration"] = { fg = p.marsala },
+		["@lsp.typemod.function.declaration"] = { fg = p.blue },
+		["@lsp.typemod.method.declaration"] = { fg = p.blue },
 	}
-end)
 
--- Build function for conditional integration loading
-local M = {}
+	-- Apply all highlights
+	for group, opts in pairs(highlights) do
+		vim.api.nvim_set_hl(0, group, opts)
+	end
+end
 
---- Build the theme with optional configuration
+--- Build and apply the theme with optional configuration
 --- @param config table|nil Configuration options for integrations
---- @return table theme The complete theme with enabled integrations
-function M.build(config)
-	local integrations = {}
+function M.load(config)
+	-- Apply base highlights
+	apply_base_highlights()
 
 	-- Default to loading all integrations if no config provided
 	if not config or not config.integrations then
@@ -330,39 +303,26 @@ function M.build(config)
 		}
 	end
 
-	-- Conditionally load integrations based on config
-	table.insert(integrations, base)
-
+	-- Conditionally load integrations
 	if config.integrations.gitsigns then
-		table.insert(integrations, require("phantom.integrations.gitsigns"))
+		require("phantom.integrations.gitsigns").load()
 	end
 
 	if config.integrations.toggleterm then
-		table.insert(integrations, require("phantom.integrations.toggleterm"))
+		require("phantom.integrations.toggleterm").load()
 	end
 
 	if config.integrations.bufferline then
-		table.insert(integrations, require("phantom.integrations.bufferline"))
+		require("phantom.integrations.bufferline").load()
 	end
 
 	if config.integrations.lualine_highlights then
-		table.insert(integrations, require("phantom.integrations.lualine_highlights"))
+		require("phantom.integrations.lualine_highlights").load()
 	end
 
 	if config.integrations.fzf_lua then
-		table.insert(integrations, require("phantom.integrations.fzf_lua"))
+		require("phantom.integrations.fzf_lua").load()
 	end
-
-	-- Merge base theme with enabled integrations
-	return lush.merge(integrations)
 end
-
--- For backward compatibility, export a default theme with all integrations
--- This allows existing code that does `require("phantom.theme")` to still work
-setmetatable(M, {
-	__call = function(_, ...)
-		return M.build(nil)
-	end
-})
 
 return M

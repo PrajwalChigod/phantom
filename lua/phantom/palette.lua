@@ -1,97 +1,62 @@
 -- palette.lua - Color palette for Phantom colorscheme
 -- A minimalist dark colorscheme with washed-out colors
-
-local lush = require("lush")
-local hsl = lush.hsl
+-- All colors defined as hex values for zero dependencies
 
 local M = {}
 
 -- Background colors
-M.black = hsl(30, 5, 10)
-M.surface = hsl(0, 0, 15)
-M.selection = hsl(0, 0, 10)
-M.cursorline = hsl(0, 0, 10)
+M.black = "#1a1814"
+M.surface = "#262626"
+M.selection = "#1a1a1a"
+M.cursorline = "#1a1a1a"
 
 -- Foreground colors
-M.fg = hsl(0, 0, 60)
-M.fg_dim = hsl(0, 0, 50)
-M.fg_dark = hsl(0, 0, 40)
+M.fg = "#999999"
+M.fg_dim = "#808080"
+M.fg_dark = "#666666"
 
 -- Primary syntax colors
-M.blue = hsl(220, 25, 55)
-M.blue2 = hsl(220, 20, 40)
+M.blue = "#6b7fa8"
+M.blue2 = "#52617a"
 
-M.marsala = hsl(10, 40, 35)
-M.marsala2 = hsl(10, 35, 20)
+M.marsala = "#7d4439"
+M.marsala2 = "#452520"
 
-M.orange = hsl(40, 30, 50)
-M.orange2 = hsl(30, 40, 30)
+M.orange = "#a69566"
+M.orange2 = "#6b5333"
 
 -- UI colors
-M.red = hsl(0, 38, 50)
-M.yellow = hsl(45, 35, 55)
-M.green = hsl(140, 22, 52)
+M.red = "#af5050"
+M.yellow = "#b3a573"
+M.green = "#6ba57d"
 
+-- Pre-computed color variations for better performance
+-- These replace runtime color transformations
 
 -- Selection variants
-M.selection_light = hsl(0, 0, 18)
+M.selection_light = "#2e2e2e"
 
 -- Search backgrounds
-M.blue_search = hsl(220, 25, 25)
+M.blue_search = "#30394d"
 
 -- Diff backgrounds
-M.green_diff = hsl(140, 22, 21)
-M.orange_diff = hsl(40, 30, 20)
-M.orange_diff_text = hsl(40, 30, 30)
-M.red_diff = hsl(0, 38, 20)
+M.green_diff = "#2d4135"
+M.orange_diff = "#423a29"
+M.orange_diff_text = "#63573d"
+M.red_diff = "#462020"
 
 -- Diagnostic virtual text (dimmed)
-M.red_diag = hsl(0, 38, 30)
-M.yellow_diag = hsl(45, 35, 35)
-M.blue_diag = hsl(220, 25, 35)
-M.green_diag = hsl(140, 22, 32)
+M.red_diag = "#6b3030"
+M.yellow_diag = "#7a7042"
+M.blue_diag = "#43526b"
+M.green_diag = "#41664f"
 
 -- Syntax color variants
-M.blue_light = hsl(220, 25, 65)
+M.blue_light = "#94a5c9"
 
 -- GitSigns line backgrounds
-M.green_bg = hsl(140, 22, 16)
-M.orange_bg = hsl(40, 30, 15)
-M.red_bg = hsl(0, 38, 15)
-
--- Hex color conversion cache for better performance
-local hex_cache = nil
-
---- Get palette colors as hex values (cached for performance)
---- Primarily used for lualine and other plugins that require hex colors
---- @return table hex_colors Table of hex color values
-function M.hex()
-	if hex_cache then
-		return hex_cache
-	end
-
-	hex_cache = {
-		-- Base
-		bg = M.black.hex,
-		bg_light = M.surface.hex,
-		bg_lighter = M.selection.hex,
-
-		-- Foreground
-		fg = M.fg.hex,
-		fg_dim = M.fg_dim.hex,
-		fg_dark = M.fg_dark.hex,
-
-		-- Primary colors
-		blue = M.blue.hex,
-		marsala = M.marsala.hex,
-
-		-- Diagnostics & Git
-		red = M.red.hex,
-		orange = M.orange.hex,
-		green = M.green.hex,
-	}
-
-	return hex_cache
-end
+M.green_bg = "#24382c"
+M.orange_bg = "#312c1f"
+M.red_bg = "#371818"
 
 return M

@@ -1,16 +1,19 @@
 -- integrations/toggleterm.lua - ToggleTerm highlight groups for Phantom colorscheme
 
-local lush = require("lush")
+local M = {}
 local p = require("phantom.palette")
 
----@diagnostic disable: undefined-global
-local toggleterm = lush(function()
-	return {
-		ToggleTerm({ bg = p.black }),
-		ToggleTermNormal({ fg = p.fg, bg = p.black }),
-		ToggleTermBorder({ fg = p.fg_dark, bg = p.black }),
-		ToggleTermFloatBorder({ fg = p.fg_dark, bg = p.black }),
+function M.load()
+	local highlights = {
+		ToggleTerm = { bg = p.black },
+		ToggleTermNormal = { fg = p.fg, bg = p.black },
+		ToggleTermBorder = { fg = p.fg_dark, bg = p.black },
+		ToggleTermFloatBorder = { fg = p.fg_dark, bg = p.black },
 	}
-end)
 
-return toggleterm
+	for group, opts in pairs(highlights) do
+		vim.api.nvim_set_hl(0, group, opts)
+	end
+end
+
+return M

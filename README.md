@@ -5,7 +5,6 @@ A minimalist dark colorscheme for Neovim with faded, washed-out colors designed 
 ## Requirements
 
 - Neovim >= 0.11.0
-- [lush.nvim](https://github.com/rktjmp/lush.nvim) - Required dependency
 - True color support (`set termguicolors`)
 
 ## Installation
@@ -15,7 +14,6 @@ A minimalist dark colorscheme for Neovim with faded, washed-out colors designed 
 ```lua
 {
   "PrajwalChigod/phantom.nvim",
-  dependencies = { "rktjmp/lush.nvim" },
   priority = 1000,
   config = function()
     require("phantom").setup()
@@ -29,7 +27,6 @@ A minimalist dark colorscheme for Neovim with faded, washed-out colors designed 
 ```lua
 use {
   "PrajwalChigod/phantom.nvim",
-  requires = { "rktjmp/lush.nvim" },
   config = function()
     require("phantom").setup()
     vim.cmd("colorscheme phantom")
@@ -40,7 +37,6 @@ use {
 ### [vim-plug](https://github.com/junegunn/vim-plug)
 
 ```vim
-Plug 'rktjmp/lush.nvim'
 Plug 'PrajwalChigod/phantom.nvim'
 ```
 
@@ -125,7 +121,79 @@ More integrations coming soon!
 
 ## Configuration
 
-Currently, Phantom works out of the box with sensible defaults. Configuration options will be added in future releases.
+Phantom supports various configuration options for customization and performance optimization.
+
+### Default Configuration
+
+```lua
+require("phantom").setup({
+  -- Enable/disable plugin integrations
+  integrations = {
+    bufferline = true,
+    gitsigns = true,
+    toggleterm = true,
+    fzf_lua = true,
+    lualine_highlights = true,
+  },
+
+  -- Cache compiled theme for faster subsequent loads (recommended)
+  cache = true,
+})
+```
+
+### Disabling Integrations
+
+If you don't use certain plugins, you can disable their integrations to reduce load time:
+
+```lua
+require("phantom").setup({
+  integrations = {
+    bufferline = false,  -- Disable if you don't use bufferline
+    gitsigns = true,
+    toggleterm = false,  -- Disable if you don't use toggleterm
+    fzf_lua = true,
+    lualine_highlights = true,
+  },
+})
+```
+
+### Lazy Loading
+
+For even faster startup times, you can use Phantom's lazy loading feature:
+
+```lua
+-- In your plugin manager config
+{
+  "PrajwalChigod/phantom.nvim",
+  lazy = true,  -- Don't load immediately
+  init = function()
+    -- Setup lazy loading trigger
+    require("phantom").lazy_load()
+  end,
+}
+
+-- Later, when you want to activate the colorscheme
+vim.cmd("colorscheme phantom")
+```
+
+
+### Cache Control
+
+Disable caching if you're actively developing the colorscheme:
+
+```lua
+require("phantom").setup({
+  cache = false,  -- Disable for debugging/development
+})
+```
+
+#### Clear Cache
+
+To clear the theme cache (useful when updating the colorscheme):
+
+```lua
+vim.g.phantom_theme_loaded = nil
+```
 
 ## Contributing
 
@@ -140,16 +208,23 @@ When reporting issues, please include:
 
 ## Development
 
-Phantom is built using [Lush](https://github.com/rktjmp/lush.nvim), a colorscheme creation tool for Neovim.
-
 To modify the colorscheme:
 
-1. Edit `lua/phantom/palette.lua` for color definitions
-2. Edit `lua/phantom/theme.lua` for highlight groups
-3. Reload with `:Lushify` or `:luafile %`
+1. Edit `lua/phantom/palette.lua` for color definitions (hex values)
+2. Edit `lua/phantom/theme.lua` for base highlight groups
+3. Edit `lua/phantom/integrations/*.lua` for plugin-specific highlights
+4. Reload with `:luafile` or restart Neovim
+
+### Architecture
+
+- **palette.lua**: Color definitions as hex values
+- **theme.lua**: Base highlight groups using `vim.api.nvim_set_hl()`
+- **integrations/**: Plugin-specific highlight groups
+- **init.lua**: Setup and configuration management
 
 ## Credits
 
-- Built with [Lush.nvim](https://github.com/rktjmp/lush.nvim) by [@rktjmp](https://github.com/rktjmp)
+- Inspired by minimalist colorscheme design principles
+- Zero dependencies achieved through native Neovim API usage
 
 
