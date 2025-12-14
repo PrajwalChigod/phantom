@@ -149,13 +149,13 @@ local function apply_base_highlights()
 
 		-- TREESITTER HIGHLIGHTS
 		["@variable"] = { fg = p.fg_dim },
-		["@variable.parameter"] = { fg = p.fg },
+		["@variable.parameter"] = { fg = p.fg_dim },
 		["@variable.member"] = { fg = p.fg },
 		["@variable.builtin"] = { fg = p.marsala2 },
 
 		["@constant"] = { fg = p.blue2, bold = true },
 		["@constant.macro"] = { fg = p.blue2, bold = true },
-		["@constant.builtin"] = { fg = p.blue2, bold = true },
+		["@constant.builtin"] = { fg = p.blue2},
 
 		["@module"] = { fg = p.fg, italic = true },
 		["@label"] = { fg = p.fg },
@@ -175,7 +175,7 @@ local function apply_base_highlights()
 
 		["@type"] = { fg = p.marsala },
 		["@type.definition"] = { fg = p.marsala },
-		["@constructor"] = { fg = p.marsala },
+		["@constructor"] = { fg = p.blue },
 		["@type.builtin"] = { fg = p.blue2 },
 
 		["@attribute"] = { fg = p.orange },
@@ -191,13 +191,14 @@ local function apply_base_highlights()
 		["@operator"] = { fg = p.fg_dim },
 
 		["@keyword"] = { fg = p.fg_dim },
-		["@keyword.function"] = { fg = p.fg_dim },
+		["@keyword.function"] = { fg = p.fg },
+		["@keyword.type"] = { fg = p.fg },
 		["@keyword.import"] = { fg = p.blue2, bold = true },
 		["@keyword.coroutine"] = { fg = p.fg_dim, bold = true },
 		["@keyword.operator"] = { fg = p.blue2 },
 		["@keyword.storage"] = { fg = p.blue2 },
 		["@keyword.repeat"] = { fg = p.blue2 },
-		["@keyword.return"] = { fg = p.blue2 },
+		["@keyword.return"] = { fg = p.fg },
 		["@keyword.debug"] = { fg = p.fg_dim, bold = true },
 		["@keyword.exception"] = { fg = p.fg_dim, bold = true },
 		["@keyword.conditional"] = { fg = p.blue2 },
@@ -265,7 +266,7 @@ local function apply_base_highlights()
 		["@lsp.type.comment"] = { fg = p.fg_dark, italic = true },
 		["@lsp.type.string"] = { fg = p.fg, italic = true },
 
-		["@lsp.mod.parameter"] = { fg = p.fg },
+		["@lsp.mod.parameter"] = { fg = p.fg_dim },
 		["@lsp.mod.declaration"] = { fg = p.fg_dim },
 		["@lsp.mod.deprecated"] = { fg = p.marsala2, strikethrough = true },
 		["@lsp.mod.static"] = { fg = p.marsala2, bold = true },
