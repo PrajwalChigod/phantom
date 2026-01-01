@@ -40,6 +40,14 @@ function M.setup(opts)
 		M.configure(opts)
 	end
 
+	-- Check cache first if enabled
+	if M.config.cache and vim.g.phantom_theme_loaded then
+		-- Theme already loaded in this session, skip reload
+		-- But still set colors_name in case it was changed
+		vim.g.colors_name = "phantom"
+		return
+	end
+
 	vim.opt.background = "dark"
 
 	-- Clear existing highlights
@@ -50,18 +58,25 @@ function M.setup(opts)
 
 	vim.g.colors_name = "phantom"
 
-	-- Check cache first if enabled
-	if M.config.cache and vim.g.phantom_theme_loaded then
-		-- Theme already loaded in this session, skip reload
-		return
-	end
-
 	-- Load theme using native Neovim API (no Lush dependency!)
 	require("phantom.theme").load(M.config)
 
 	-- Mark theme as loaded if caching is enabled
 	if M.config.cache then
 		vim.g.phantom_theme_loaded = true
+
+		-- Create autocommand to clear cache flag when switching away (only once)
+		if not vim.g.phantom_autocmd_created then
+			vim.api.nvim_create_autocmd("ColorScheme", {
+				group = vim.api.nvim_create_augroup("PhantomColorscheme", { clear = true }),
+				callback = function(event)
+					if event.match ~= "phantom" then
+						vim.g.phantom_theme_loaded = false
+					end
+				end,
+			})
+			vim.g.phantom_autocmd_created = true
+		end
 	end
 end
 
